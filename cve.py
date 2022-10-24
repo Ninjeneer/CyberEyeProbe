@@ -15,7 +15,6 @@ def get_cve_for_service(service: Service) -> None:
     keywords = "{} {}".format(service.product, service.version if service.version else '')
 
     # Search for CVEs
-    print(keywords)
     cves = []
     try:
         cves = nvdlib.searchCVE(keyword=keywords)

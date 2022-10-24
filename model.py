@@ -13,7 +13,6 @@ class Service:
 
     @staticmethod
     def build_from_nmap_result(result) -> 'Service':
-        print(result)
         service = Service()
         service.protocol = result['protocol']
         service.port = int(result['portid'])
