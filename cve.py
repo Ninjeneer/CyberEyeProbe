@@ -1,27 +1,47 @@
 from sys import stderr
-import nvdlib
 import os
 
-from requests import JSONDecodeError
+import requests
 from model import Service
 
-def _filter_cve_results(cve_results: list) -> list:
-    return filter(lambda entry: entry['cve']['data_type'] == 'CVE', cve_results)
+api_key = os.getenv('NVD_API_KEY')
 
-def get_cve_for_service(service: Service) -> None:
+def get_cve_for_service(service: Service) -> list:
     """
     Assign CVEs to a given service
     """
-    keywords = "{} {}".format(service.product, service.version if service.version else '')
+    keywords = "{} {}".format(
+        service.product, service.version if service.version else '')
 
     # Search for CVEs
-    cves = []
-    try:
-        cves = nvdlib.searchCVE(keyword=keywords)
-    except JSONDecodeError as jsonError:
-        if os.environ.get('DEV'):
-            print(jsonError, file=stderr)
+    print("[CVE Scanner] Searching for CVEs for service: {}".format(keywords))
+    api_call = requests.get(
+        url="https://services.nvd.nist.gov/rest/json/cves/2.0",
+        params={"keywordSearch": keywords},
+        headers={"apiKey": api_key}
+    )
 
-        print("[Error]: failed to search for CVE with keyword {}".format(keywords))
-    
-    service.cves = _filter_cve_results(cves)
+    if api_call.status_code != 200:
+        print("Error while calling NVD API: {}".format(
+            api_call.text), file=stderr)
+        return []
+
+    try:
+        body = api_call.json()
+        vulnerabilites = body['vulnerabilities']
+
+        print("[CVE Scanner] Found {} CVEs for service: {}".format(len(vulnerabilites), keywords))
+
+        # Returns all the 'CVE' entries of vulnerabilities array
+        return list(
+            map(
+                lambda vuln: vuln['cve'],
+                filter(
+                    lambda vuln: 'cve' in vuln, vulnerabilites
+                )
+            )
+        )
+    except requests.JSONDecodeError as e:
+        print("Error while decoding JSON response from NVD API: {}".format(
+            e), file=stderr)
+        return []

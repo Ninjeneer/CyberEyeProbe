@@ -1,5 +1,7 @@
 from typing import List
 
+from object_utils import safe_dict_value
+
 class Service:
     def __init__(self, protocol: str = None, port: int = None, name: str = None, product: str = None, version: str = None, extrainfo: str = None, cves: list = []):
         self.protocol = protocol
@@ -34,7 +36,14 @@ class Service:
             'product': self.product,
             'version': self.version,
             'extrainfo': self.extrainfo,
-            'cves': self.cves
+            'cves': list(map(lambda cve: {
+                'id': safe_dict_value('id', cve),
+                'sourceIdentifier': safe_dict_value('sourceIdentifier', cve),
+                'published': safe_dict_value('published', cve),
+                'vulnStatus': safe_dict_value('vulnStatus', cve),
+                'descriptions': safe_dict_value('descriptions', cve),
+                'metrics': safe_dict_value('metrics', cve),
+            }, self.cves))
         }
 
 

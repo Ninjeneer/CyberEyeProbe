@@ -1,1 +1,1 @@
-docker build . --tag probe_nmap
+docker build . --tag ninjeneer/probe-nmap
