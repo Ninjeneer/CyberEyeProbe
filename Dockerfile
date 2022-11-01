@@ -1,5 +1,6 @@
 FROM python:alpine
 
+# Install probe dependencies
 RUN apk add nmap
 RUN apk add nmap-scripts
 

@@ -11,3 +11,6 @@ def _save_object_to_mongo(data: dict) -> str:
 
 def save_object(data: dict) -> str:
     return _save_object_to_mongo(data)
+
+def close_connection():
+    client.close()

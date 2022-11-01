@@ -3,7 +3,7 @@ import os
 import json
 
 from model import ScanResult
-from object_saver import save_object
+from mongo_saver import close_connection, save_object
 
 sqs = boto3.client('sqs',
                    aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
@@ -21,4 +21,7 @@ def send_message(scan_result: ScanResult) -> bool:
             "objectId": saved_object_id
         })
     )
+
+    close_connection()
+
     return True if response['MessageId'] else False
