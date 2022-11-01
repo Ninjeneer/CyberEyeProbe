@@ -41,10 +41,20 @@ class Service:
                 'sourceIdentifier': safe_dict_value('sourceIdentifier', cve),
                 'published': safe_dict_value('published', cve),
                 'vulnStatus': safe_dict_value('vulnStatus', cve),
-                'descriptions': safe_dict_value('descriptions', cve),
+                'descriptions': self._get_relevant_decription(safe_dict_value('descriptions', cve)),
                 'metrics': safe_dict_value('metrics', cve),
             }, self.cves))
         }
+
+    def _get_relevant_decription(self, descriptions: list) -> str:
+        if not descriptions:
+            return ''
+
+        for description in descriptions:
+            if description['lang'] == 'en':
+                return description['value']
+
+        return ''
 
 
 class Context:
