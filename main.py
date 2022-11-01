@@ -20,6 +20,7 @@ if __name__ == "__main__":
 
     # Scan open services on host
     scan_result = scan_server_services(host)
+    scan_result.context.probe_uid = os.getenv('PROBE_UID')
 
     # Run CVE scanner in parallel
     threads = []
@@ -32,4 +33,4 @@ if __name__ == "__main__":
     for thread in threads:
         thread.join()
 
-    send_message(service)
+    send_message(scan_result)

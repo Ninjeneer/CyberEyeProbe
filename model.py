@@ -48,14 +48,16 @@ class Service:
 
 
 class Context:
-    def __init__(self, timestamp_start: int, timestamp_stop: int) -> None:
+    def __init__(self, timestamp_start: int = 0, timestamp_stop: int = 0, probe_uid: str = None) -> None:
         self.timestamp_start = timestamp_start
         self.timestamp_stop = timestamp_stop
+        self.probe_uid = probe_uid
 
     def __to_dict__(self) -> dict:
         return {
-            'timestamp_start': self.timestamp_start,
-            'timestamp_stop': self.timestamp_stop
+            'timestampStart': self.timestamp_start,
+            'timestampStop': self.timestamp_stop,
+            'probeUid': self.probe_uid
         }
 
 
