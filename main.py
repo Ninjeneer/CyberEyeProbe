@@ -12,7 +12,8 @@ from nmap import scan_server_services
 from mq_queue import send_message
 
 def assign_cves_to_service(service):
-    service.cves = get_cve_for_service(service)
+    if (service.version is not None and service.version is not ''):
+        service.cves = get_cve_for_service(service)
 
 if __name__ == "__main__":
     # Get host from env variable
@@ -21,6 +22,8 @@ if __name__ == "__main__":
     # Scan open services on host
     scan_result = scan_server_services(host)
     scan_result.context.probe_uid = os.getenv('PROBE_UID')
+    scan_result.context.probe_name = os.getenv('PROBE_NAME')
+    scan_result.context.target = os.getenv('HOST')
 
     # Run CVE scanner in parallel
     threads = []

@@ -58,16 +58,25 @@ class Service:
 
 
 class Context:
-    def __init__(self, timestamp_start: int = 0, timestamp_stop: int = 0, probe_uid: str = None) -> None:
+    def __init__(self, 
+    timestamp_start: int = 0, 
+    timestamp_stop: int = 0, 
+    probe_uid: str = None, 
+    probe_name: str = "unknown_probe", 
+    target: str = "unknown_target") -> None:
         self.timestamp_start = timestamp_start
         self.timestamp_stop = timestamp_stop
         self.probe_uid = probe_uid
+        self.probe_name = probe_name
+        self.target = target
 
     def __to_dict__(self) -> dict:
         return {
             'timestampStart': self.timestamp_start,
             'timestampStop': self.timestamp_stop,
-            'probeUid': self.probe_uid
+            'probeUid': self.probe_uid,
+            "probeName": self.probe_name,
+            "target": self.target
         }
 
 
@@ -78,6 +87,6 @@ class ScanResult:
 
     def __to_dict__(self):
         return {
-            "services": list(map(lambda service: service.__to_dict__(), self.services)),
+            "result": list(map(lambda service: service.__to_dict__(), self.services)),
             "context": self.context.__to_dict__()
         }
