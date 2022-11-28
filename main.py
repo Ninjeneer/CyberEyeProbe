@@ -12,7 +12,7 @@ from nmap import scan_server_services
 from mq_queue import send_message
 
 def assign_cves_to_service(service):
-    if (service.version is not None and service.version is not ''):
+    if (service.version is not None and service.version != ''):
         service.cves = get_cve_for_service(service)
 
 if __name__ == "__main__":

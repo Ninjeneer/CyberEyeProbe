@@ -1,12 +1,12 @@
 FROM python:alpine
 
-# Install probe dependencies
-RUN apk add nmap
-RUN apk add nmap-scripts
-
 WORKDIR /app
-COPY . .
 
+# Install probe dependencies
+RUN apk add nmap nmap-scripts
+
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
+COPY . .
 CMD ["python", "main.py"]
