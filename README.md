@@ -6,19 +6,19 @@ Scan a given server for open services, retrieve their version and try to find as
 
 ## Required env variables
 
-- PROBE_UID
-- HOST [IP / domain name] (target to scan)
+- PROBE_ID
+- TARGET [IP / domain name] (target to scan)
 - NVD_API_KEY
   
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
 - AWS_DEFAULT_REGION
 - AWS_QUEUE_URL
-- AWS_BUCKET_NAME
+- AWS_QUEUE_RESPONSE_URL
 
 ## Optional env variables
 
-- DEBUG [true / false] (show additional logs)
+- DEV [true / false] (load .env file)
 
 ## Technical stack
 - Python 3.10

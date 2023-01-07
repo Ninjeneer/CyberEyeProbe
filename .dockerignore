@@ -6,3 +6,5 @@ __pycache__
 README.md
 build_docker.sh
 output.json
+
+.env
