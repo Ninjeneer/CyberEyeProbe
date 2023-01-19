@@ -1,12 +1,10 @@
 # Nmap scanner : scan open services on a given server
 # and cross the result with CVE database to identify vulnerabilities
+import dotenv
+dotenv.load_dotenv()
 
 import os
 import threading
-
-if os.getenv('DEV') == 'dev':
-    import dotenv
-    dotenv.load_dotenv()
 
 from cve import get_cve_for_service
 from nmap import scan_server_services
