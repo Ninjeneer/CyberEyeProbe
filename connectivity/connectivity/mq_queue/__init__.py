@@ -2,8 +2,7 @@ import boto3
 import os
 import json
 
-from model import ScanResult
-from mongo_saver import close_connection, save_object
+from connectivity.mongo_saver import close_connection, save_object
 
 sqs = boto3.client('sqs',
                    aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
@@ -12,9 +11,9 @@ sqs = boto3.client('sqs',
 queue_url = os.getenv('AWS_QUEUE_RESPONSE_URL')
 
 
-def send_message(scan_result: ScanResult) -> bool:
+def send_message(scan_result: dict) -> bool:
     print("[SAVE] Saving results to database")
-    saved_object_id = save_object(scan_result.__to_dict__())
+    saved_object_id = save_object(scan_result)
     print("[SAVE] Saved results to database")
 
 

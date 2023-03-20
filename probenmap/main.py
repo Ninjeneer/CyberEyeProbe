@@ -8,11 +8,11 @@ import threading
 
 from cve import get_cve_for_service
 from nmap import scan_server_services
-from mq_queue import send_message
+from connectivity import mq_queue
 
 def assign_cves_to_service(service):
-    if (service.version is not None and service.version != ''):
-        service.cves = get_cve_for_service(service)
+    if ('version' in service and service['version'] != ''):
+        service['cves'] = get_cve_for_service(service)
 
 if __name__ == "__main__":
     # Get host from env variable
@@ -29,7 +29,7 @@ if __name__ == "__main__":
 
     # Run CVE scanner in parallel
     threads = []
-    for service in scan_result.services:
+    for service in scan_result.result:
         threads.append(threading.Thread(target=assign_cves_to_service, args=(service,)))
 
     for thread in threads:
@@ -38,4 +38,4 @@ if __name__ == "__main__":
     for thread in threads:
         thread.join()
 
-    send_message(scan_result)
+    mq_queue.send_message(scan_result.__to_dict__())

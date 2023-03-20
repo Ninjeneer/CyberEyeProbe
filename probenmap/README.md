@@ -24,4 +24,4 @@ Scan a given server for open services, retrieve their version and try to find as
 - Python 3.10
 - Nmap
 - AWS SQS
-- AWS S3
+- Mongo DB

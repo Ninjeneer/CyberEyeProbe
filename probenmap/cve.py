@@ -2,7 +2,7 @@ from sys import stderr
 import os
 
 import requests
-from model import Service
+from nmap_model import Service
 
 api_key = os.getenv('NVD_API_KEY')
 
@@ -11,7 +11,7 @@ def get_cve_for_service(service: Service) -> list:
     Assign CVEs to a given service
     """
     keywords = "{} {}".format(
-        service.product, service.version if service.version else '')
+        service['product'], service['version'] if service['version'] else '')
 
     # Search for CVEs
     print("[CVE Scanner] Searching for CVEs for service: {}".format(keywords))
