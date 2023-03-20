@@ -1,5 +1,5 @@
 run-dummy:
-	docker run ninjeneer/probe-dummy
+	docker run --env-file probedummy/.env ninjeneer/probe-dummy
 
 run-nmap:
 	docker run --env-file probenmap/.env ninjeneer/probe-nmap
