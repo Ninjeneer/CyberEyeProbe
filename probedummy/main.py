@@ -14,7 +14,7 @@ if __name__ == '__main__':
     target = os.getenv('TARGET')
 
     print('dummy')
-    mongo_saver.save_object({
+    mq_queue.send_message({
         "context": {
             "timestampStart": floor(time.time_ns() / 1_000_000_000 - 60 * 5), # 5 minutes probe
             "timestampStop": floor(time.time_ns() / 1_000_000_000),
