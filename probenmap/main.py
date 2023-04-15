@@ -7,19 +7,21 @@ import os
 import threading
 
 from cve import get_cve_for_service
-from nmap import scan_server_services
-from connectivity import mq_queue
+from nmap_wrapper import scan_server_services
+from connectivity import mq_queue, supabase
 
 def assign_cves_to_service(service):
     if ('version' in service and service['version'] != ''):
         service['cves'] = get_cve_for_service(service)
 
-if __name__ == "__main__":
+def run_probe():
     # Get host from env variable
     host = os.getenv('TARGET')
 
     if host is None:
         raise Exception('Target is not defined !')
+    
+    supabase.set_probe_as_running()
 
     # Scan open services on host
     scan_result = scan_server_services(host)
@@ -39,3 +41,6 @@ if __name__ == "__main__":
         thread.join()
 
     mq_queue.send_message(scan_result.__to_dict__())
+
+if __name__ == "__main__":
+    run_probe()
