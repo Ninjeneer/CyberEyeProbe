@@ -9,8 +9,13 @@ from nmap_model import Service
 def scan_server_services(host: str) -> model.ScanResult:
     """Scan open services on a given server"""
     print("[Nmap Scanner] Scanning open services on host: {}".format(host))
-    nmap_output = subprocess.check_output(['nmap', '-sV', host, '-oX', '-'])
+    try:
+        nmap_output = subprocess.check_output(['nmap', '-sV', host, '-oX', '-'])
+    except:
+        print("error")
+    print("[Nmap Scanner] Result provided, parsing...")
     parsed_output = json.loads(json.dumps(xmltodict.parse(nmap_output, attr_prefix="")))
+    print("[Nmap Scanner] Result parsed")
 
     ports = parsed_output["nmaprun"]['host']['ports']['port']
     nb_open_services = len(ports) if ports else 0

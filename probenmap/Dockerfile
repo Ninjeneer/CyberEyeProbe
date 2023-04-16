@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 COPY ./connectivity ./connectivity
 COPY ./probenmap .
 
-CMD ["python", "main.py"]
+CMD ["python", "-u", "main.py"]

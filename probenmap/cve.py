@@ -23,7 +23,7 @@ def get_cve_for_service(service: Service) -> list:
 
     if api_call.status_code != 200:
         print("Error while calling NVD API: {}".format(
-            api_call.text), file=stderr)
+            api_call.text))
         return []
 
     try:
@@ -43,5 +43,5 @@ def get_cve_for_service(service: Service) -> list:
         )
     except requests.JSONDecodeError as e:
         print("Error while decoding JSON response from NVD API: {}".format(
-            e), file=stderr)
+            e))
         return []
