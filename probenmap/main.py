@@ -35,16 +35,17 @@ def run_probe():
     scan_result.context.target = host
 
     # Run CVE scanner in parallel
-    print("Triggering CVE DB")
-    threads = []
-    for service in scan_result.result:
-        threads.append(threading.Thread(target=assign_cves_to_service, args=(service,)))
+    if len(scan_result.result) > 0:
+        print("Triggering CVE DB")
+        threads = []
+        for service in scan_result.result:
+            threads.append(threading.Thread(target=assign_cves_to_service, args=(service,)))
 
-    for thread in threads:
-        thread.start()
+        for thread in threads:
+            thread.start()
 
-    for thread in threads:
-        thread.join()
+        for thread in threads:
+            thread.join()
 
     mq_queue.send_message(scan_result.__to_dict__())
 
