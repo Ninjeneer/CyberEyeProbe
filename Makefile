@@ -1,3 +1,7 @@
+new:
+	chmod +x create_probe.sh
+	./create_probe.sh
+
 run-dummy:
 	docker run --env-file probedummy/.env ninjeneer/vuln-scanner-probe:probe-dummy
 
