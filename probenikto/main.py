@@ -10,3 +10,6 @@ def run_probe():
 
     print('[Nikto] Targeting {}...'.format(target))
     nikto_result = niktowrapper.run_nikto_on_target(target)
+
+if __name__ == "__main__":
+    run_probe()
